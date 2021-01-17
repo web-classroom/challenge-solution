@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/css/reset.css" />
+    <link rel="stylesheet" href="/css/main.css" />
+    <title>Guess the logos</title>
+  </head>
+  <body>
+    <main class="container">
+      <div class="header">
+        <h1 class="title">Guess the logos</h1>
+      </div>
+
+      <form id="form">
+        <div class="grid">
+          <% images.forEach(function(image) { %>
+          <div class="grid-item" data-image-id="<%= image.id %>">
+            <img class="logo" src="/images/partial/<%= image.id %>.svg" />
+            <input class="input" name="<%= image.id %>" type="text" placeholder="Type here..." />
+          </div>
+          <% }) %>
+        </div>
+
+        <div class="footer">
+          <button type="submit" class="btn">Check results 🤞</button>
+          <div id="score" class="subtitle"></div>
+        </div>
+      </form>
+    </main>
+    <script>
+      const scoreEl = document.getElementById('score');
+      const formEl = document.getElementById('form');
+      const submitBtn = formEl.querySelector('[type="submit"]');
+
+      formEl.addEventListener('submit', async (event) => {
+        event.preventDefault();
+
+        const data = {};
+        const formData = new FormData(formEl);
+        for (let [name, value] of formData.entries()) {
+          data[name] = value;
+        }
+        const response = await fetch('/verify', {
+          method: 'POST',
+          headers: {
+            'Content-type': 'application/json',
+          },
+          body: JSON.stringify(data),
+        });
+
+        const images = await response.json();
+        const total = images.length;
+        const points = images.filter((image) => image.valid).length;
+        scoreEl.textContent = `${points}/${total} points`;
+        submitBtn.style.display = 'none';
+
+        images.forEach((image) => {
+          const inputEl = document.querySelector(`[data-image-id="${image.id}"] input`);
+          const imgEl = document.querySelector(`[data-image-id="${image.id}"] img`);
+
+          imgEl.src = `/images/full/${image.id}.svg`;
+          inputEl.value = image.title;
+          inputEl.disabled = true;
+          inputEl.classList.add(image.valid ? 'valid' : 'invalid');
+        });
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,119 @@
+/*** Variables ***/
+
+:root {
+  --color-white: #fff;
+  --color-slate-400: #96a1b5;
+  --color-slate-900: #111729;
+  --color-slate-800: #20293a;
+  --color-indigo-500: #6466e9;
+  --color-red-400: #f87171;
+  --color-green-400: #34d399;
+
+  --text-primary: var(--color-white);
+  --text-secondary: var(--color-slate-400);
+  --background-primary: var(--color-slate-900);
+  --background-contrast: var(--color-slate-800);
+}
+
+/*** Base ***/
+
+body {
+  background: var(--background-primary);
+  color: var(--text-primary);
+  line-height: 1.5;
+}
+
+.title {
+  font-size: 2.5rem;
+  font-weight: 500;
+}
+
+.subtitle {
+  font-size: 1.25rem;
+  font-weight: 500;
+}
+
+/*** Components ***/
+
+.input {
+  width: 100%;
+  border: none;
+  margin-top: 0.5rem;
+  padding: 0.75rem 0.5rem;
+  background: var(--background-contrast);
+  color: var(--text-primary);
+  text-align: center;
+  font-weight: 500;
+}
+
+.input::placeholder {
+  color: var(--text-secondary);
+}
+
+.input.valid {
+  color: var(--color-green-400);
+}
+
+.input.invalid {
+  color: var(--color-red-400);
+}
+
+.btn {
+  border: none;
+  padding: 1rem;
+  background: var(--color-indigo-500);
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+/*** Layout ***/
+
+.container {
+  width: 100%;
+  max-width: 30rem;
+  margin: 0 auto;
+  padding: 2rem;
+}
+@media screen and (min-width: 768px) {
+  .container {
+    max-width: 50rem;
+  }
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 2rem;
+}
+
+.grid-item {
+  display: flex;
+  flex-direction: column;
+}
+
+@media screen and (min-width: 768px) {
+  .grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.logo {
+  width: 100%;
+  background: var(--color-white);
+  aspect-ratio: 1 / 1;
+  object-fit: contain;
+}
+
+.header {
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.footer {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+
+
